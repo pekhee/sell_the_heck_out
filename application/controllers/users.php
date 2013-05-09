@@ -24,9 +24,14 @@ class Users_Controller extends Base_Controller {
 	public function get_index()
 	{
 		$users = User::with(array('todos'))->get();
-
-		$this->layout->title   = 'Users';
-		$this->layout->content = View::make('users.index')->with('users', $users);
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($users);
+		}
+		else{
+			$this->layout->title   = 'Users';
+			$this->layout->content = View::make('users.index')->with('users', $users);
+		}
 	}
 
 	/**
@@ -90,9 +95,14 @@ class Users_Controller extends Base_Controller {
 		{
 			return Redirect::to('users');
 		}
-
-		$this->layout->title   = 'Viewing User #'.$id;
-		$this->layout->content = View::make('users.view')->with('user', $user);
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($user);
+		}
+		else{
+			$this->layout->title   = 'Viewing User #'.$id;
+			$this->layout->content = View::make('users.view')->with('user', $user);
+		}
 	}
 
 	/**
@@ -109,9 +119,14 @@ class Users_Controller extends Base_Controller {
 		{
 			return Redirect::to('users');
 		}
-
-		$this->layout->title   = 'Editing User';
-		$this->layout->content = View::make('users.edit')->with('user', $user);
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($user);
+		}
+		else{
+			$this->layout->title   = 'Editing User';
+			$this->layout->content = View::make('users.edit')->with('user', $user);
+		}
 	}
 
 	/**
