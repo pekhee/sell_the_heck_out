@@ -24,9 +24,14 @@ class Todos_Controller extends Base_Controller {
 	public function get_index()
 	{
 		$todos = Todo::with(array('user'))->get();
-
-		$this->layout->title   = 'Todos';
-		$this->layout->content = View::make('todos.index')->with('todos', $todos);
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($todos));
+		}
+		else{
+			$this->layout->title   = 'Todos';
+			$this->layout->content = View::make('todos.index')->with('todos', $todos);
+		}
 	}
 
 	/**
@@ -53,7 +58,6 @@ class Todos_Controller extends Base_Controller {
 			'user_id' => array('required', 'integer'),
 			'what' => array('required'),
 			'when' => array('required'),
-			'time_started' => array('required'),
 		));
 
 		if($validation->valid())
@@ -63,7 +67,7 @@ class Todos_Controller extends Base_Controller {
 			$todo->user_id = Input::get('user_id');
 			$todo->what = Input::get('what');
 			$todo->when = Input::get('when');
-			$todo->time_started = Input::get('time_started');
+			$todo->time_started = Input::get('time_started', time() );
 
 			$todo->save();
 
@@ -94,9 +98,15 @@ class Todos_Controller extends Base_Controller {
 		{
 			return Redirect::to('todos');
 		}
-
-		$this->layout->title   = 'Viewing Todo #'.$id;
-		$this->layout->content = View::make('todos.view')->with('todo', $todo);
+		
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($todo));
+		}
+		else{
+			$this->layout->title   = 'Viewing Todo #'.$id;
+			$this->layout->content = View::make('todos.view')->with('todo', $todo);
+		}
 	}
 
 	/**
@@ -113,9 +123,14 @@ class Todos_Controller extends Base_Controller {
 		{
 			return Redirect::to('todos');
 		}
-
-		$this->layout->title   = 'Editing Todo';
-		$this->layout->content = View::make('todos.edit')->with('todo', $todo);
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($todo));
+		}
+		else{
+			$this->layout->title   = 'Editing Todo';
+			$this->layout->content = View::make('todos.edit')->with('todo', $todo);
+		}
 	}
 
 	/**
