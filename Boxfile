@@ -18,7 +18,8 @@ web1:
     - eaccelerator
     - memcached
     - curl
-
+  before_deploy:
+    - "php artisan migrate"
   after_deploy:
     - "rm -f storage/cache/*"
     - "rm -f storage/views/*"
