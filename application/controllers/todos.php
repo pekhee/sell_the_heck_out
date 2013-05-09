@@ -26,7 +26,7 @@ class Todos_Controller extends Base_Controller {
 		$todos = Todo::with(array('user'))->get();
 		
 		if(Input::get('alt') == 'json'){
-			return Response::eloquent($todos));
+			return Response::eloquent($todos);
 		}
 		else{
 			$this->layout->title   = 'Todos';
@@ -101,7 +101,7 @@ class Todos_Controller extends Base_Controller {
 		
 		
 		if(Input::get('alt') == 'json'){
-			return Response::eloquent($todo));
+			return Response::eloquent($todo);
 		}
 		else{
 			$this->layout->title   = 'Viewing Todo #'.$id;
@@ -125,7 +125,7 @@ class Todos_Controller extends Base_Controller {
 		}
 		
 		if(Input::get('alt') == 'json'){
-			return Response::eloquent($todo));
+			return Response::eloquent($todo);
 		}
 		else{
 			$this->layout->title   = 'Editing Todo';
