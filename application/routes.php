@@ -36,18 +36,18 @@
 Route::filter('pattern: todos/*', 'auth');
 
 // Arbitrary routes
-Route::get('/', array( 'as' => 'home', function()
+/*Route::get('/', array( 'as' => 'home', function()
 {
 	return View::make('home.index');
 }));
-
+*/
 
 // Login and Logout routes
 Route::secure('GET', 'users/login', array( 'before' => 'https', 'as' => 'login', 'uses' => 'users@login'));
 
 Route::secure('POST', 'users/login/(:any?)','users@login');
 
-Route::secure('POST', 'users/logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
+Route::secure('GET', 'users/logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
 
 Route::secure('POST', 'users/logout', 'users@logout');
 
