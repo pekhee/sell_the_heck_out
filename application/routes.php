@@ -43,16 +43,17 @@ Route::get('/', array( 'as' => 'home', function()
 
 
 // Login and Logout routes
-Route::secure('GET', 'users/login', array( 'as' => 'login', 'uses' => 'users@login'));
+Route::secure('GET', 'users/login', array( 'before' => 'https', 'as' => 'login', 'uses' => 'users@login'));
 
-Route::secure('POST', 'login/(:any?)','users@login');
+Route::secure('POST', 'users/login/(:any?)','users@login');
 
-Route::secure('POST', 'logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
+Route::secure('POST', 'users/logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
 
-Route::secure('POST', 'logout', 'users@logout');
+Route::secure('POST', 'users/logout', 'users@logout');
 
+/** OLD
 // Ensuring https on some parts of application
-Route::any('users/login', function(){
+Route::get('users/login', function(){
 	Log::debug('hited normal login');
 	if(Request::secure()){
 	}
@@ -60,15 +61,16 @@ Route::any('users/login', function(){
 		return Redirect::to_secure('users/login');
 	}
 });
-Route::any('users/logout', function(){
+Route::get('users/logout', function(){
 	if(Request::secure()){
 	}
 	else{
 		return Redirect::to_secure('users/logout');
 	}
 });
+*/
 
-Route::controller(Controller::detect());
+//Route::controller(Controller::detect());
 /*
 |--------------------------------------------------------------------------
 | Application 404 & 500 Error Handlers
@@ -151,5 +153,8 @@ Route::filter('auth', function()
 			return Redirect::to_route('login');
 		}
 	}
-	
+});
+
+Route::filter('https', function() {
+    if (!Request::secure()) return Redirect::to_secure(URI::current());
 });
