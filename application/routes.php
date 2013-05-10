@@ -32,8 +32,10 @@
 |
 */
 
-Route::controller(Controller::detect());
+// Bind filters to controllers
+Route::filter('pattern: todos/*', 'auth');
 
+// Arbitrary routes
 Route::get('/', array( 'as' => 'home', function()
 {
 	return View::make('home.index');
@@ -41,7 +43,7 @@ Route::get('/', array( 'as' => 'home', function()
 
 
 // Login and Logout routes
-Route::secure('GET', 'login', array( 'as' => 'login', 'uses' => 'users@login'));
+Route::secure('GET', 'users/login', array( 'as' => 'login', 'uses' => 'users@login'));
 
 Route::secure('POST', 'login/(:any?)','users@login');
 
@@ -56,6 +58,8 @@ Route::any('login', function(){
 Route::any('logout', function(){
 	Redirect::to_secure('logout');
 });
+
+Route::controller(Controller::detect());
 /*
 |--------------------------------------------------------------------------
 | Application 404 & 500 Error Handlers
@@ -128,14 +132,14 @@ Route::filter('csrf', function()
 Route::filter('auth', function()
 {
 	if (Auth::guest()){
-		if(Input::get('alt') =='json'){
+		if(Input::get('alt') == 'json'){
 			return json_encode( array(
 				'error' => true,
 				'message' => 'You should login first',
 			));
 		}
 		else{
-			return Redirect::to('login');
+			return Redirect::to_route('login');
 		}
 	}
 	

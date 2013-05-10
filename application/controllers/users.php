@@ -63,7 +63,7 @@ class Users_Controller extends Base_Controller {
 			$user = new User;
 
 			$user->username = Input::get('username');
-			$user->password = Input::get('password');
+			$user->password = Hash::make( Input::get('password'));
 			$user->email = Input::get('email');
 
 			$user->save();
@@ -153,7 +153,7 @@ class Users_Controller extends Base_Controller {
 			}
 
 			$user->username = Input::get('username');
-			$user->password = Input::get('password');
+			$user->password = Hash::make( Input::get('password'));
 			$user->email = Input::get('email');
 
 			$user->save();
@@ -198,8 +198,9 @@ class Users_Controller extends Base_Controller {
 	 * @return Login screen
 	 */
 	public function get_login(){
-		$this->title = "Login to your account";
-		$this->content = View::make('users.login');
+		Log::debug('hited login action!');
+		$this->layout->title = "Login to your account";
+		$this->layout->content = View::make('users.login');
 	}
 	
 	/**
@@ -222,37 +223,41 @@ class Users_Controller extends Base_Controller {
 		}
 		if( (Input::get('username', null) != null) && (Input::get('password', null) != null) ){
 			$attempt_cred = array(
-				'username' => Input::get('username'),
-				'password' => Input::get('password'),
+				'username' => trim( Input::get('username') ),
+				'password' => trim( Input::get('password') ),
+			);
 		}
 		else{
 			$creds = explode(':',$creds);
 			$attempt_cred = array(
-				'username' => array_get($creds, '0'),
-				'password' => array_get($creds, '1'),
+				'username' => trim( array_get($creds, '0') ),
+				'password' => trim( array_get($creds, '1') ),
 			);
 		}
 		if(Auth::attempt($attempt_cred)){
 			Session::flash('message', 'Success');
+			Log::debug('Logged in');
 			// Redirects user to where she came from. 
 			if(Input::get('alt') == 'json'){
 				return Response::eloquent( Auth::user() );;
 			}
 			else{
-				return Redirect::to(Input::get('redirect_to', 'home'));
+				return Redirect::to(Input::get('redirect_to', '/'));
 			}
 		}
 		else{
 			// Uh oh, invalid credentials.
 			Session::flash('message', 'Invalid username or password');
+			Input::flash();
 			if(Input::get('alt') == 'json'){
 				return json_encode(array( 
 				'error' => true, 
-				'message' => 'Invalid username or password'),
+				'message' => 'Invalid username or password',
 				));
 			}
 			else{
-				return Redirect::to('login');
+				$user = User::find(1);
+				return Redirect::to('users/login');
 			}
 		}
 		
@@ -281,6 +286,6 @@ class Users_Controller extends Base_Controller {
 	 */
 	public function post_logout(){
 		Auth::logout();
-		return Redirect::to(Input::get('redirect_to', 'home');
+		return Redirect::to(Input::get('redirect_to', 'home'));
 	}
 }

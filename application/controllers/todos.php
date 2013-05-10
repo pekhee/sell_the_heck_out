@@ -22,7 +22,14 @@ class Todos_Controller extends Base_Controller {
 	 * 
 	 */
 	public function before(){
-		this->filter('before', 'auth');
+		Log::debug('hited before on todos ctrl');
+		$this->filter('before', 'auth');
+		$filters = $this->filters('before', 'index');
+		$result = Filter::run($filters);
+		Log::info($result);
+		if( is_null($result) ){
+			return $result;
+		}
 	}
 
 	/**
