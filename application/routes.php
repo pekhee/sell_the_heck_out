@@ -54,10 +54,18 @@ Route::secure('POST', 'logout', 'users@logout');
 // Ensuring https on some parts of application
 Route::any('users/login', function(){
 	Log::debug('hited normal login');
-	return Redirect::to_secure('users/login');
+	if(Request::secure()){
+	}
+	else{
+		return Redirect::to_secure('users/login');
+	}
 });
 Route::any('users/logout', function(){
-	return Redirect::to_secure('users/logout');
+	if(Request::secure()){
+	}
+	else{
+		return Redirect::to_secure('users/logout');
+	}
 });
 
 Route::controller(Controller::detect());
