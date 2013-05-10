@@ -37,7 +37,7 @@ Route::controller(Controller::detect());
 Route::get('/', array( 'as' => 'home', function()
 {
 	return View::make('home.index');
-});
+}));
 
 
 // Login and Logout routes
@@ -53,9 +53,9 @@ Route::secure('POST', 'logout', 'users@logout');
 Route::any('login', function(){
 	Redirect::to_secure('login');
 });
-Route::any('logout', function()){
+Route::any('logout', function(){
 	Redirect::to_secure('logout');
-}
+});
 /*
 |--------------------------------------------------------------------------
 | Application 404 & 500 Error Handlers
