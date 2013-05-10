@@ -15,6 +15,15 @@ class Todos_Controller extends Base_Controller {
 	 * @var bool
 	 */
 	public $restful = true;
+	
+	/**
+	 * Ensure users are logged in.
+	 * This method executes before any other method is called.
+	 * 
+	 */
+	public function before(){
+		this->filter('before', 'auth');
+	}
 
 	/**
 	 * View all of the todos.
@@ -55,7 +64,6 @@ class Todos_Controller extends Base_Controller {
 	public function post_create()
 	{
 		$validation = Validator::make(Input::all(), array(
-			'user_id' => array('required', 'integer'),
 			'what' => array('required'),
 			'when' => array('required'),
 		));
@@ -64,7 +72,7 @@ class Todos_Controller extends Base_Controller {
 		{
 			$todo = new Todo;
 
-			$todo->user_id = Input::get('user_id');
+			$todo->user_id = Auth::user()->id;
 			$todo->what = Input::get('what');
 			$todo->when = Input::get('when');
 			$todo->time_started = Input::get('time_started', time() );

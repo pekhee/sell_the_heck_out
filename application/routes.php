@@ -39,14 +39,23 @@ Route::get('/', array( 'as' => 'home', function()
 	return View::make('home.index');
 });
 
-Rout::get('login', array( 'as' => 'login', 'uses' => 'users@login'));
 
-Rout::post('login/(:any)','users@login');
+// Login and Logout routes
+Route::secure('GET', 'login', array( 'as' => 'login', 'uses' => 'users@login'));
 
-Rout::get('logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
+Route::secure('POST', 'login/(:any?)','users@login');
 
-Rout::post('logout', 'users@logout');
+Route::secure('POST', 'logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
 
+Route::secure('POST', 'logout', 'users@logout');
+
+// Ensuring https on some parts of application
+Route::any('login', function(){
+	Redirect::to_secure('login');
+});
+Route::any('logout', function()){
+	Redirect::to_secure('logout');
+}
 /*
 |--------------------------------------------------------------------------
 | Application 404 & 500 Error Handlers
@@ -118,5 +127,16 @@ Route::filter('csrf', function()
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::to('login');
+	if (Auth::guest()){
+		if(Input::get('alt') =='json'){
+			return json_encode( array(
+				'error' => true,
+				'message' => 'You should login first',
+			));
+		}
+		else{
+			return Redirect::to('login');
+		}
+	}
+	
 });

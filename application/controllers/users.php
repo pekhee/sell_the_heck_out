@@ -216,7 +216,7 @@ class Users_Controller extends Base_Controller {
 	 * @return Redirect to home
 	 * 
 	 */
-	public function post_login($creds){
+	public function post_login($creds = 'default:default'){
 		if(Input::get('creds', null) != null){
 			$creds = Input::get('creds');
 		}
