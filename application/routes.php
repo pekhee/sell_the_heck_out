@@ -52,11 +52,11 @@ Route::secure('POST', 'logout', array( 'as' => 'logout', 'uses' => 'users@logout
 Route::secure('POST', 'logout', 'users@logout');
 
 // Ensuring https on some parts of application
-Route::any('login', function(){
-	Redirect::to_secure('login');
+Route::any('users/login', function(){
+	Redirect::to_secure('users/login');
 });
-Route::any('logout', function(){
-	Redirect::to_secure('logout');
+Route::any('users/logout', function(){
+	Redirect::to_secure('users/logout');
 });
 
 Route::controller(Controller::detect());
