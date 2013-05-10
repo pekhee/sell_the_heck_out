@@ -270,8 +270,8 @@ class Users_Controller extends Base_Controller {
 	 * @return Logout screen
 	 */
 	public function get_logout(){
-		$this->title = "Logout from your account";
-		$this->content = View::make('users.logout');
+		$this->layout->title = "Logout from your account";
+		$this->layout->content = View::make('users.logout');
 	}
 	
 	/**

@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row">
+		<div class="row-fluid">
 			<div class="span16">
 				<h1>{{$title}}</h1>
 				<hr>

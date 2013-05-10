@@ -157,6 +157,7 @@ Route::filter('auth', function()
 });
 
 Route::filter('https', function() {
-	Log::debug(print_r(Request::secure()));
-    if (!Request::secure()) return Redirect::to_secure(URI::current());
+	if(Request::env() == 'production'){
+		if (!Request::secure()) return Redirect::to_secure(URI::current());
+	}
 });
