@@ -13,13 +13,6 @@
 {{Form::open(null, 'post', array('class' => 'form-stacked span16'))}}
 	<fieldset>
 		<div class="clearfix">
-			{{Form::label('user_id', 'User Id')}}
-
-			<div class="input">
-				{{Form::text('user_id', Input::old('user_id', $user_id), array('class' => 'span6'))}}
-			</div>
-		</div>
-		<div class="clearfix">
 			{{Form::label('what', 'What')}}
 
 			<div class="input">
