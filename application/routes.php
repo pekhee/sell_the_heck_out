@@ -43,8 +43,11 @@ Route::filter('pattern: todos/*', 'auth');
 */
 
 // Login and Logout routes
-Route::secure('GET', 'users/login', array( 'before' => 'https', 'as' => 'login', 'uses' => 'users@login'));
 
+Route::secure('GET', 'users/login', array( 'before' => 'https', 'as' => 'login', 'users@login'));
+/*
+Route::secure('GET', 'users/login', array( 'before' => 'https', 'as' => 'login', 'uses' => 'users@login'));
+*/
 Route::secure('POST', 'users/login/(:any?)','users@login');
 
 Route::secure('GET', 'users/logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
@@ -121,7 +124,7 @@ Event::listen('500', function($exception)
 |		Route::get('/', array('before' => 'filter', function()
 |		{
 |			return 'Hello World!';
-|		}));
+|		})); 
 |
 */
 
@@ -156,5 +159,6 @@ Route::filter('auth', function()
 });
 
 Route::filter('https', function() {
+	Log::debug(print_r(Request::secure()));
     if (!Request::secure()) return Redirect::to_secure(URI::current());
 });
