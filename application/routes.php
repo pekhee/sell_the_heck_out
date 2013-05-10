@@ -44,10 +44,8 @@ Route::filter('pattern: todos/*', 'auth');
 
 // Login and Logout routes
 
-Route::secure('GET', 'users/login', array( 'before' => 'https', 'as' => 'login', 'users@login'));
-/*
 Route::secure('GET', 'users/login', array( 'before' => 'https', 'as' => 'login', 'uses' => 'users@login'));
-*/
+
 Route::secure('POST', 'users/login/(:any?)','users@login');
 
 Route::secure('GET', 'users/logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
