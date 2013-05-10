@@ -34,12 +34,18 @@
 
 Route::controller(Controller::detect());
 
-Route::get('/', function()
+Route::get('/', array( 'as' => 'home', function()
 {
 	return View::make('home.index');
 });
 
+Rout::get('login', array( 'as' => 'login', 'uses' => 'users@login'));
 
+Rout::post('login/(:any)','users@login');
+
+Rout::get('logout', array( 'as' => 'logout', 'uses' => 'users@logout'));
+
+Rout::post('logout', 'users@logout');
 
 /*
 |--------------------------------------------------------------------------

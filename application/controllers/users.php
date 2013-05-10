@@ -190,4 +190,97 @@ class Users_Controller extends Base_Controller {
 
 		return Redirect::to('users');
 	}
+	
+	/**
+	 * Show login screen
+	 * 
+	 * @param void
+	 * @return Login screen
+	 */
+	public function get_login(){
+		$this->title = "Login to your account";
+		$this->content = View::make('users.login');
+	}
+	
+	/**
+	 * Logs in user
+	 * 
+	 * @param 'login/username:password'
+	 * or
+	 * @param 'login?creds=username:password'
+	 * or
+	 * @param 'login?username=username,password=password'
+	 * 
+	 * @return Redirect to specified path in 'login?redirect_to=path'
+	 * or (if redirect_to is not setted)
+	 * @return Redirect to home
+	 * 
+	 */
+	public function post_login($creds){
+		if(Input::get('creds', null) != null){
+			$creds = Input::get('creds');
+		}
+		if( (Input::get('username', null) != null) && (Input::get('password', null) != null) ){
+			$attempt_cred = array(
+				'username' => Input::get('username'),
+				'password' => Input::get('password'),
+		}
+		else{
+			$creds = explode(':',$creds);
+			$attempt_cred = array(
+				'username' => array_get($creds, '0'),
+				'password' => array_get($creds, '1'),
+			);
+		}
+		if(Auth::attempt($attempt_cred)){
+			Session::flash('message', 'Success');
+			// Redirects user to where she came from. 
+			if(Input::get('alt') == 'json'){
+				return Response::eloquent( Auth::user() );;
+			}
+			else{
+				return Redirect::to(Input::get('redirect_to', 'home'));
+			}
+		}
+		else{
+			// Uh oh, invalid credentials.
+			Session::flash('message', 'Invalid username or password');
+			if(Input::get('alt') == 'json'){
+				return json_encode(array( 
+				'error' => true, 
+				'message' => 'Invalid username or password'),
+				));
+			}
+			else{
+				return Redirect::to('login');
+			}
+		}
+		
+	}
+	
+	/**
+	 * Show logout screen
+	 * 
+	 * @param void
+	 * @return Logout screen
+	 */
+	public function get_logout(){
+		$this->title = "Logout from your account";
+		$this->content = View::make('users.logout');
+	}
+	
+	/**
+	 * Logs out user.
+	 * And returns her to path 'redirect_to=path'
+	 * 
+	 * @param 'redirect_to=path'
+	 * 
+	 * @return Redirect to path
+	 * or (if redirect_to is not setted)
+	 * @return Redirect to home
+	 */
+	public function post_logout(){
+		Auth::logout();
+		return Redirect::to(Input::get('redirect_to', 'home');
+	}
 }
