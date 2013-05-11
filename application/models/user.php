@@ -25,4 +25,8 @@ class User extends Eloquent {
 	{
 		return $this->has_many('Todo');
 	}
+	
+	public function profile(){
+		return $this->has_one('User_Profile');
+	}
 }

@@ -235,7 +235,7 @@ class Users_Controller extends Base_Controller {
 			);
 		}
 		if(Auth::attempt($attempt_cred)){
-			Session::flash('message', 'Success');
+			Session::flash('message', 'You have successfully logged in.');
 			Log::debug('Logged in');
 			// Redirects user to where she came from. 
 			if(Input::get('alt') == 'json'){

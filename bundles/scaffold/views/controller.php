@@ -28,9 +28,13 @@ class <?php echo $plural_class; ?>_Controller extends <?php echo $controller; ?>
 <?php else: ?>
 		$<?php echo $plural; ?> = <?php echo $singular_class; ?>::all();
 <?php endif; ?>
-
-		$this->layout->title   = '<?php echo ucwords(str_replace('_', ' ', $plural_class)); ?>';
-		$this->layout->content = View::make('<?php echo $nested_view.$plural; ?>.index')->with('<?php echo $plural; ?>', $<?php echo $plural; ?>);
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($<?php echo $plural?>);
+		}
+		else{
+			$this->layout->title   = '<?php echo ucwords(str_replace('_', ' ', $plural_class)); ?>';
+			$this->layout->content = View::make('<?php echo $nested_view.$plural; ?>.index')->with('<?php echo $plural; ?>', $<?php echo $plural; ?>);
+		}
 	}
 
 	/**
@@ -115,9 +119,14 @@ class <?php echo $plural_class; ?>_Controller extends <?php echo $controller; ?>
 		{
 			return Redirect::to('<?php echo $nested_path.$plural; ?>');
 		}
-
-		$this->layout->title   = 'Viewing <?php echo str_replace('_', ' ', $singular_class); ?> #'.$id;
-		$this->layout->content = View::make('<?php echo $nested_view.$plural; ?>.view')->with('<?php echo $singular; ?>', $<?php echo $singular; ?>);
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($<?php echo $plural?>);
+		}
+		else{
+			$this->layout->title   = 'Viewing <?php echo str_replace('_', ' ', $singular_class); ?> #'.$id;
+			$this->layout->content = View::make('<?php echo $nested_view.$plural; ?>.view')->with('<?php echo $singular; ?>', $<?php echo $singular; ?>);
+		}
 	}
 
 	/**
@@ -134,9 +143,14 @@ class <?php echo $plural_class; ?>_Controller extends <?php echo $controller; ?>
 		{
 			return Redirect::to('<?php echo $nested_path.$plural; ?>');
 		}
-
-		$this->layout->title   = 'Editing <?php echo str_replace('_', ' ', $singular_class); ?>';
-		$this->layout->content = View::make('<?php echo $nested_view.$plural; ?>.edit')->with('<?php echo $singular; ?>', $<?php echo $singular; ?>);
+		
+		if(Input::get('alt') == 'json'){
+			return Response::eloquent($<?php echo $plural?>);
+		}
+		else{
+			$this->layout->title   = 'Editing <?php echo str_replace('_', ' ', $singular_class); ?>';
+			$this->layout->content = View::make('<?php echo $nested_view.$plural; ?>.edit')->with('<?php echo $singular; ?>', $<?php echo $singular; ?>);
+		}
 	}
 
 	/**

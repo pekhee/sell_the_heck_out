@@ -36,11 +36,11 @@
 Route::filter('pattern: todos/*', 'auth');
 
 // Arbitrary routes
-/*Route::get('/', array( 'as' => 'home', function()
+Route::get('/', array( 'as' => 'home', function()
 {
 	return View::make('home.index');
 }));
-*/
+
 
 // Login and Logout routes
 
@@ -71,7 +71,7 @@ Route::get('users/logout', function(){
 });
 */
 
-//Route::controller(Controller::detect());
+Route::controller(Controller::detect());
 /*
 |--------------------------------------------------------------------------
 | Application 404 & 500 Error Handlers

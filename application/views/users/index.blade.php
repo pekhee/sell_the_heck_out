@@ -18,6 +18,7 @@
 					<td>{{$user->username}}</td>
 					<td>{{$user->password}}</td>
 					<td>{{$user->email}}</td>
+					<td><a href="{{URL::to('users/profiles/view/'.$user->profile->id)}}">{{ $user->username }}'s profile </a></td>
 					<td>{{count($user->todos)}}</td>
 					<td>
 						<a href="{{URL::to('users/view/'.$user->id)}}" class="btn">View</a>

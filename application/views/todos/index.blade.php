@@ -25,6 +25,16 @@
 						<a href="{{URL::to('todos/delete/'.$todo->id)}}" class="btn danger" onclick="return confirm('Are you sure?')">Delete</a>
 					</td>
 				</tr>
+				@foreach($todo->comments as $comment)
+				<tr>
+					<td colspan="2">
+						{{ $comment->title }}
+					</td>
+					<td colspan="3">
+						{{ $comment->body }}
+					</td>				
+				</tr>
+				@endforeach
 			@endforeach
 		</tbody>
 	</table>

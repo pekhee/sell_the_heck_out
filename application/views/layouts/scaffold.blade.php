@@ -3,15 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{$title}}</title>
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" type="text/css" href="{{asset('bundles/scaffold/css/bootstrap.css')}}">
 	<style>
 		body { margin: 40px; }
 	</style>
 </head>
 <body>
 	<div class="container">
-		<div class="row-fluid">
+		<div class="row">
 			<div class="span16">
 				<h1>{{$title}}</h1>
 				<hr>
