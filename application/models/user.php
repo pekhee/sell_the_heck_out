@@ -21,9 +21,9 @@ class User extends Eloquent {
 	 *
 	 * @return Laravel\Database\Eloquent\Relationships\Has_Many
 	 */
-	public function todos()
+	public function ads()
 	{
-		return $this->has_many('Todo');
+		return $this->has_many('Ad');
 	}
 	
 	public function profile(){

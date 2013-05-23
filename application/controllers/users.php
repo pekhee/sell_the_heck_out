@@ -23,7 +23,7 @@ class Users_Controller extends Base_Controller {
 	 */
 	public function get_index()
 	{
-		$users = User::with(array('todos'))->get();
+		$users = User::with(array('ads'))->get();
 		
 		if(Input::get('alt') == 'json'){
 			return Response::eloquent($users);
@@ -63,7 +63,7 @@ class Users_Controller extends Base_Controller {
 			$user = new User;
 
 			$user->username = Input::get('username');
-			$user->password = Hash::make( Input::get('password'));
+			$user->password = Hash::make( Input::get('password') );
 			$user->email = Input::get('email');
 
 			$user->save();
@@ -89,7 +89,7 @@ class Users_Controller extends Base_Controller {
 	 */
 	public function get_view($id)
 	{
-		$user = User::with(array('todos'))->find($id);
+		$user = User::with(array('ads'))->find($id);
 
 		if(is_null($user))
 		{
@@ -236,13 +236,26 @@ class Users_Controller extends Base_Controller {
 		}
 		if(Auth::attempt($attempt_cred)){
 			Session::flash('message', 'You have successfully logged in.');
-			Log::debug('Logged in');
+			Log::debug('Logged in' . Auth::user()->username);
 			// Redirects user to where she came from. 
 			if(Input::get('alt') == 'json'){
 				return Response::eloquent( Auth::user() );;
 			}
 			else{
-				return Redirect::to(Input::get('redirect_to', '/'));
+				if(Input::has('redirect_to')){
+					return Redirect::to(Input::get('redirect_to', Input::referer()));
+				}
+				else{
+					if(Session::has('redirect_to')){
+						$where = Session::get('redirect_to');
+						Session::forget('redirect_to');
+						
+						return Redirect::to($where);
+					}
+					else{
+						return Redirect::back();
+					}
+				}
 			}
 		}
 		else{

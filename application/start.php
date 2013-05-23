@@ -59,7 +59,8 @@ Laravel\Autoloader::$aliases = $aliases;
 */
 
 Autoloader::map(array(
-	'Base_Controller' => path('app').'controllers/base.php',
+	'Base_Controller' 	=> path('app').'controllers/base.php',
+	'AppHelper'			=> path('app').'libraries/app/apphelper.php',
 ));
 
 /*
@@ -171,3 +172,7 @@ if ( ! Request::cli() and Config::get('session.driver') !== '')
 {
 	Session::load();
 }
+
+// Here things get hairy
+
+require_once(path('app') . 'libraries/helpers/functions.php');

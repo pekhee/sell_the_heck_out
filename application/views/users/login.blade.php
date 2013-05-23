@@ -18,7 +18,7 @@
 					</div>
 				
 					<div class="clearfix">
-						{{Form::label('password', 'User Name: ')}}
+						{{Form::label('password', 'Password: ')}}
 
 						<div class="input">
 							{{Form::text('password', Input::old('password'), array('class' => 'span6'))}}
@@ -26,7 +26,7 @@
 					</div>
 					
 					<div class="actions">
-						{{Form::submit('Save', array('class' => 'btn primary'))}}
+						{{Form::submit('Login', array('class' => 'btn primary'))}}
 
 						or <a href="{{URL::to(Request::referrer())}}">Cancel</a>
 					</div>

@@ -1,0 +1,3 @@
+[submodule "application/libraries/faker"]
+	path = application/libraries/faker
+	url = git://github.com/fzaninotto/Faker.git

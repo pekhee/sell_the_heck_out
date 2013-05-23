@@ -13,7 +13,7 @@
 						{{Form::hidden('null', Input::old('null'), array('class' => 'span6'))}}
 					</div>
 					<div class="actions">
-						{{Form::submit('Save', array('class' => 'btn primary'))}}
+						{{Form::submit('Logout', array('class' => 'btn primary'))}}
 
 						or <a href="{{URL::to(Request::referrer())}}">Cancel</a>
 					</div>

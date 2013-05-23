@@ -53,7 +53,7 @@ class Request
         self::HEADER_CLIENT_PORT  => 'X_FORWARDED_PORT',
     );
 
-    protected static $httpMethodParameterOverride = false;
+    protected static $httpMethodParameterOverride = true;
 
     /**
      * @var \Symfony\Component\HttpFoundation\ParameterBag

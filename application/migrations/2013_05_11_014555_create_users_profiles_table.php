@@ -14,13 +14,17 @@ class Create_Users_Profiles_Table {
 			$table->increments('id');
 
 			$table->integer('user_id');
-			$table->string('name');
+			$table->string('first_name');
 			$table->string('last_name');
-			$table->string('city');
-			$table->string('country');
-			$table->string('time_zone');
-			$table->string('pic_link');
+			$table->string('phone');
+			$table->string('place');
+			$table->string('map');
 
+			$table->string('time_zone');
+			$table->string('country');
+			$table->string('city');
+
+			$table->string('img_link');
 			$table->timestamps();
 		});
 	}
