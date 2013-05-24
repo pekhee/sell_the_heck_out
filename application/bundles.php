@@ -38,7 +38,7 @@ return array(
 	'docs' => array('handles' => 'docs'),
     'scaffold',
 	'plant',
-	'presenter'
+	'presenter',
 	'swiftmailer',
 
 );
