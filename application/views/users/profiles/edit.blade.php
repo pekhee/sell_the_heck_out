@@ -69,6 +69,9 @@
 				{{Form::text('time_zone', Input::old('time_zone', $profile->time_zone), array('class' => 'span6'))}}
 			</div>
 		</div>
+		<section>
+			<img src="{{ $profile->img_link }}">
+		</section>
 		<div class="clearfix">
 			{{Form::label('pic', 'Picture')}}
 

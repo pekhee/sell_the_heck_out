@@ -1,26 +1,28 @@
-global:
-  env:
-    - LARAVEL_ENV: production
-web1:
-  name: your-app-name
-  shared_writable_dirs:
+--- 
+global: 
+  env: 
+    - 
+      LARAVEL_ENV: production
+web1: 
+  after_deploy: 
+    - "rm -f storage/cache/*"
+    - "rm -f storage/views/*"
+  before_deploy: 
+    - "php artisan migrate:reset"
+    - "php artisan migrate"
+  document_root: /public
+  name: kijiji-clone
+  php_extensions: 
+    - pdo_mysql
+    - mcrypt
+    - eaccelerator
+    - memcached
+    - curl
+  php_version: "5.3.8"
+  shared_writable_dirs: 
     - /storage/cache
     - /storage/database
     - /storage/logs
     - /storage/sessions
     - /storage/views
     - /storage/work
-  document_root: /public
-  php_version: 5.3.8
-  php_extensions:
-    - pdo_mysql
-    - mcrypt
-    - eaccelerator
-    - memcached
-    - curl
-  before_deploy:
-    - "php artisan migrate:reset"
-	- "php artisan migrate"
-  after_deploy:
-    - "rm -f storage/cache/*"
-    - "rm -f storage/views/*"
