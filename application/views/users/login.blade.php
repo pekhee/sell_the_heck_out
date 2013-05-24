@@ -1,4 +1,4 @@
-{{ Form::open(null, 'post', array('class' => 'form-stacked span16') ) }}
+{{ Form::open(URL::to_route('users.login'), 'POST', array('class' => 'form-stacked span16') ) }}
 	<div class="row-fluid">
 		<div class="hero offset2 span8">
 			<h1>Please log-in</h1>

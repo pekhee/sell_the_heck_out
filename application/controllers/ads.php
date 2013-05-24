@@ -120,7 +120,7 @@ class Ads_Controller extends Base_Controller {
 
 			Session::flash('message', 'Added ad #'.$ad->id);
 
-			return Redirect::to_route('users.ads');
+			return Redirect::to_route('users.ads', array( 'user_id' => $user_id, 'ad_id' => $ad->id));
 		}
 
 		else

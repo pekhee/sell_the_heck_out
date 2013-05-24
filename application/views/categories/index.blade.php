@@ -23,21 +23,22 @@
 					</td>
 					<td>
 						{{$category->parent_id}}
-					</td>
+					</td><?php $parent = object_get($category, 'parent'); $children = object_get($category, 'children') ?>
 					<td>
-						@if ( $pre->get('categories.parent' . $category->id) )
-							Parent Name{{ $pre->get('categories.parent' . $category->id)->name }}
+						@if (!is_null($parent))
+							{{ $parent->name }}
 						@endif
 					</td>
 					<td>
-						@if ( !is_null( $pre->get('categories.children' . $category->id) ))
+						@if ( count($children) > 0 )
 							Number of children: {{ count($children) }}
-							@foreach ($category->children() as $child)
-								<a href="{{URL::to_route('users.categories.view', array( 'category_id' => $category->id ) )}}">
-									{{ $child->name }}
-								</a>
-							@endforeach
-
+							<ul>
+								@foreach ($children as $child)
+									<li><a href="{{URL::to_route('users.categories.view', array( 'category_id' => $category->id ) )}}">
+										{{ $child->name }}
+									</a></li>
+								@endforeach
+							</ul>
 						@endif
 					</td>
 					<td>

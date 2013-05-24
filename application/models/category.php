@@ -50,6 +50,6 @@ class Category extends Eloquent {
 	}
 
 	public function children(){
-		return $this->has_many('Categories', 'parent_id');
+		return $this->has_many('Category', 'parent_id');
 	}
 }

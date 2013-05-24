@@ -1,0 +1,37 @@
+{
+  "name": "anahkiasen/former",
+  "description": "A powerful form builder",
+  "homepage": "http://anahkiasen.github.com/former/",
+  "license": "MIT",
+  "keywords": [
+    "bootstrap",
+    "form",
+    "foundation",
+    "laravel"
+  ],
+  "authors": [
+    {
+      "name": "Maxime Fabre",
+      "email": "ehtnam6@gmail.com"
+    }
+  ],
+  "require": {
+    "anahkiasen/html-object": "dev-master",
+    "anahkiasen/underscore-php": "dev-master",
+    "illuminate/config": "4.0.*",
+    "illuminate/container": "4.0.*",
+    "illuminate/http": "4.0.*",
+    "illuminate/session": "4.0.*",
+    "illuminate/translation" :"4.0.*"
+  },
+  "require-dev": {
+    "mockery/mockery": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "Former": "src",
+      "Laravel": "src"
+    }
+  },
+  "minimum-stability": "dev"
+}

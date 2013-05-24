@@ -11,28 +11,29 @@ function g(&$var, $def = 'Not setted'){
 }
 
 /**
-*|--------------------------------------------------------------------------
-*| Object data handlers
-*|--------------------------------------------------------------------------
-*| Test if $object has $property, if so return $property
-*| 
-*| If $object has a method with $property's name, then 
-*| return result of that method call.
-*| 
-*| In case all fails, return default.
-*| 
-*| @param $object
-*| 	Object to be tested
-*| @param $property
-*| 	Property to test Object with
-*| @param $default
-*| 	what should be returned if test fails
-*| @param $force
-*| 	should getting property from object be forced?
-*| 		Case TRUE: Checks if $object is an object, then return result, errors are supressed. 
-*| @return mixed
-*|	result of method or property expression or in case of failure, $default
-*| @author Pooyan Khosravi
+*==========================================================================
+*========================== Object data handlers ==========================
+*==========================================================================
+* Test if $object has $property, if so return $property
+* 
+* If $object has a method with $property's name, then 
+* return result of that method call.
+* 
+* In case all fails, return default.
+* 
+* @param $object
+* 	Object to be tested
+* @param $property
+* 	Property to test Object with
+* @param $default
+* 	what should be returned if test fails
+* @param $force
+* 	should getting property from object be forced?
+* 		Case TRUE: Checks if $object is an object, then return result,
+*		errors are supressed. 
+* @return mixed
+*	result of method or property expression or in case of failure, $default
+* @author Pooyan Khosravi
 */
 function object_get($object, $property, $default = null, $force = false){
 	if(is_object($object)){
@@ -52,6 +53,9 @@ function object_get($object, $property, $default = null, $force = false){
 		}
 		if($eloquent){
 			$value = $object->$property;
+			/*if($value==null && method_exists($object, $property)){
+				return call_user_func(array($object, $property));
+			}*/
 			return ( $value != null ) ? $value : $default;
 		}
 		if(method_exists($object, $property)){

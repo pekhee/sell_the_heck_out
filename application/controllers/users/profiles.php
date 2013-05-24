@@ -40,8 +40,11 @@ class Users_Profiles_Controller extends Base_Controller {
 	 */
 	public function get_create($user_id = null)
 	{
+		if(Auth::user()->profile != null){
+			return Redirect::to_route('users.profile.edit', array( 'user_id' => $user_id ));
+		}
 		$this->layout->title   = 'New Users Profile';
-		$this->layout->content = View::make('users.profiles.create');
+		$this->layout->content = View::make('users.profiles.create')->with('user_id', $user_id);
 	}
 
 	/**
@@ -49,11 +52,14 @@ class Users_Profiles_Controller extends Base_Controller {
 	 *
 	 * @return Response
 	 */
-	public function post_create()
+	public function post_create($user_id = 0)
 	{
 		$validation = Validator::make(Input::all(), array(
-			'name' => array('required'),
+			'first_name' => array('required'),
 			'last_name' => array('required'),
+			'phone' => array('required'),
+			'place' => array('required'),
+			'map' => array('required'),
 			'city' => array('required'),
 			'country' => array('required'),
 			'time_zone' => array('required'),
@@ -61,16 +67,22 @@ class Users_Profiles_Controller extends Base_Controller {
 
 		if($validation->valid())
 		{
+			if(Auth::user()->profile != null){
+				return Redirect::to_route('users.profile.edit', array( 'user_id' => $user_id ));
+			}
 			$profile = new User_Profile;
 
-			$profile->user_id = Auth::user()->id;
-			$profile->name = Input::get('name');
+			$profile->user_id = $user_id;
+			$profile->first_name = Input::get('first_name');
 			$profile->last_name = Input::get('last_name');
+			$profile->phone = Input::get('phone');
+			$profile->place = Input::get('place');
+			$profile->map = Input::get('map');
 			$profile->city = Input::get('city');
 			$profile->country = Input::get('country');
 			$profile->time_zone = Input::get('time_zone');
 			$profile->save();
-			if(!is_null(Input::file('pic'))){
+			if( array_get(Input::file('pic'), 'size', 0) != 0 ){
 				Log::debug('has pic');
 				Input::upload('pic', path('storage') . 'work/' . 'image/', $profile->id . '.jpg');
 				$profile->pic_link = path('storage') . 'work/' . 'image/' . "$profile->id" . '.jpg';
@@ -96,20 +108,21 @@ class Users_Profiles_Controller extends Base_Controller {
 	 * @param  int   $id
 	 * @return void
 	 */
-	public function get_view($id)
+	public function get_view($user_id = 0)
 	{
-		$profile = User_Profile::with(array('user'))->find($id);
+		$profile = User::with(array('profile'))->find($user_id)->profile()->first();
 
-		if(is_null($profile))
-		{
-			return Redirect::to('users/profiles');
-		}
-		
 		if(Input::get('alt') == 'json'){
 			return Response::eloquent($profiles);
 		}
+
+		if(is_null($profile))
+		{
+			return Redirect::to_route('users.profile.new', array( 'user_id' => $user_id ));
+		}
+		
 		else{
-			$this->layout->title   = 'Viewing Users Profile #'.$id;
+			$this->layout->title   = 'Viewing Users Profile #'.$user_id;
 			$this->layout->content = View::make('users.profiles.view')->with('profile', $profile);
 		}
 	}
@@ -120,13 +133,13 @@ class Users_Profiles_Controller extends Base_Controller {
 	 * @param  int   $id
 	 * @return void
 	 */
-	public function get_edit($id)
+	public function get_edit($user_id = 0)
 	{
-		$profile = User_Profile::find($id);
+		$profile = User::find($user_id)->with('profile')->profile;
 
 		if(is_null($profile))
 		{
-			return Redirect::to('users/profiles');
+			return Redirect::to_route('users.profile.new', array( 'user_id' => $user_id ));
 		}
 		
 		if(Input::get('alt') == 'json'){
@@ -134,7 +147,7 @@ class Users_Profiles_Controller extends Base_Controller {
 		}
 		else{
 			$this->layout->title   = 'Editing Users Profile';
-			$this->layout->content = View::make('users.profiles.edit')->with('profile', $profile);
+			$this->layout->content = View::make('users.profiles.edit')->with( array('profile' => $profile, 'user_id' => $user_id ));
 		}
 	}
 
@@ -144,11 +157,14 @@ class Users_Profiles_Controller extends Base_Controller {
 	 * @param  int       $id
 	 * @return Response
 	 */
-	public function post_edit($id)
+	public function put_edit($user_id)
 	{
 		$validation = Validator::make(Input::all(), array(
-			'name' => array('required'),
+			'first_name' => array('required'),
 			'last_name' => array('required'),
+			'phone' => array('required'),
+			'place' => array('required'),
+			'map' => array('required'),
 			'city' => array('required'),
 			'country' => array('required'),
 			'time_zone' => array('required'),
@@ -156,21 +172,24 @@ class Users_Profiles_Controller extends Base_Controller {
 
 		if($validation->valid())
 		{
-			$profile = User_Profile::find($id);
+			$profile = User::find($user_id)->with('profile')->profile;
 
 			if(is_null($profile))
 			{
-				return Redirect::to('users/profiles');
+				return Redirect::to_route('users.profile.new');
 			}
 
 			$profile->user_id = Auth::user()->id;
-			$profile->name = Input::get('name');
+			$profile->first_name = Input::get('first_name');
 			$profile->last_name = Input::get('last_name');
+			$profile->phone = Input::get('phone');
+			$profile->place = Input::get('place');
+			$profile->map = Input::get('map');
 			$profile->city = Input::get('city');
 			$profile->country = Input::get('country');
 			$profile->time_zone = Input::get('time_zone');
 			$profile->save();
-			if(!is_null(Input::file('pic'))){
+			if( array_get(Input::file('pic'), 'size', 0) != 0 ){
 				Log::debug('has pic');
 				Input::upload('pic', path('public') . 'user_data/' . 'image/', $profile->id . '.jpg');
 				$profile->pic_link = '/public/' . 'user_data/' . 'image/' . "$profile->id" . '.jpg';
@@ -179,12 +198,12 @@ class Users_Profiles_Controller extends Base_Controller {
 
 			Session::flash('message', 'Updated profile #'.$profile->id);
 
-			return Redirect::to('users/profiles');
+			return Redirect::to_route('users.profile.view', array( 'user_id' => $user_id ));
 		}
 
 		else
 		{
-			return Redirect::to('users/profiles/edit/'.$id)
+			return Redirect::to_route('users.profile.edit', array( 'user_id' => $user_id ))
 					->with_errors($validation->errors)
 					->with_input();
 		}
@@ -196,17 +215,16 @@ class Users_Profiles_Controller extends Base_Controller {
 	 * @param  int       $id
 	 * @return Response
 	 */
-	public function get_delete($id)
+	public function get_delete($user_id)
 	{
-		$profile = User_Profile::find($id);
+		$profile = User::find($user_id)->with('profile')->profile;
 
 		if( ! is_null($profile))
 		{
 			$profile->delete();
-
 			Session::flash('message', 'Deleted profile #'.$profile->id);
 		}
 
-		return Redirect::to('users/profiles');
+		return Redirect::to_route('users.view', array( 'user_id' => $user_id ));
 	}
 }

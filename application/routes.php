@@ -46,61 +46,61 @@ Route::get('/', array( 'as' => 'home', function()
 Route::secure('GET', 	'users/login', 									array( 'before' => 'https', 'as' => 'user.login', 					'uses' => 'users@login'));
 Route::secure('POST', 	'users/login/(:any?)',							array( 'before' => 'https', 'as' => 'user.login.s', 				'uses' => 'users@login'));
 
-Route::secure('GET', 	'users/logout', 								array( 'before' => 'https', 'as' => 'user.logout', 					'uses' => 'users@logout'));
-Route::secure('POST', 	'users/logout', 								array( 'before' => 'https', 'as' => 'user.logout.s', 				'uses' => 'users@logout'));
+Route::secure('GET', 	'users/logout', 								array( 'before' => 'https|auth', 'as' => 'user.logout', 					'uses' => 'users@logout'));
+Route::secure('POST', 	'users/logout', 								array( 'before' => 'https|auth', 'as' => 'user.logout.s', 				'uses' => 'users@logout'));
 
 // Users URLS
 Route::secure('GET', 	'users', 										array( 'before' => 'https', 'as' => 'users', 						'uses' => 'users@index')); 	// List all
-Route::secure('GET', 	'users/new', 									array( 'before' => 'https', 'as' => 'users.new', 					'uses' => 'users@create')); 	// Creation form
-Route::secure('POST', 	'users/new', 									array( 'before' => 'https', 'as' => 'users.new.s', 					'uses' => 'users@create')); 	// Submit
 Route::secure('GET', 	'users/(:num)', 								array( 'before' => 'https', 'as' => 'users.view', 					'uses' => 'users@view')); 	// Show
-Route::secure('GET', 	'users/(:num)/edit', 							array( 'before' => 'https', 'as' => 'users.edit', 					'uses' => 'users@edit')); 	// Edit show current status
-Route::secure('PUT', 	'users/(:num)/edit', 							array( 'before' => 'https', 'as' => 'users.edit.s', 				'uses' => 'users@edit')); 	// Edit submit
-Route::secure('GET', 	'users/(:num)/delete', 							array( 'before' => 'https', 'as' => 'users.delete', 				'uses' => 'users@delete')); 	// Make sure
-Route::secure('DELETE', 'users/(:num)/delete', 							array( 'before' => 'https', 'as' => 'users.delete.s', 				'uses' => 'users@delete')); 	// Delete
-Route::secure('DELETE', 'users/(:num)', 								array( 'before' => 'https', 'as' => 'users.delete.s.alt',			'uses' => 'users@delete')); 	// Delete
+Route::secure('GET', 	'users/new', 									array( 'before' => 'https|auth', 'as' => 'users.new', 					'uses' => 'users@create')); 	// Creation form
+Route::secure('POST', 	'users/new', 									array( 'before' => 'https|auth', 'as' => 'users.new.s', 					'uses' => 'users@create')); 	// Submit
+Route::secure('GET', 	'users/(:num)/edit', 							array( 'before' => 'https|auth', 'as' => 'users.edit', 					'uses' => 'users@edit')); 	// Edit show current status
+Route::secure('PUT', 	'users/(:num)/edit', 							array( 'before' => 'https|auth', 'as' => 'users.edit.s', 				'uses' => 'users@edit')); 	// Edit submit
+Route::secure('GET', 	'users/(:num)/delete', 							array( 'before' => 'https|auth', 'as' => 'users.delete', 				'uses' => 'users@delete')); 	// Make sure
+Route::secure('DELETE', 'users/(:num)/delete', 							array( 'before' => 'https|auth', 'as' => 'users.delete.s', 				'uses' => 'users@delete')); 	// Delete
+Route::secure('DELETE', 'users/(:num)', 								array( 'before' => 'https|auth', 'as' => 'users.delete.s.alt',			'uses' => 'users@delete')); 	// Delete
 
 // Profile URLS
-Route::get(				'users/(:num)/profile', 						array( 'before' => '', 		'as' => 'users.profile.view', 			'uses' => 'users.profile@view'));
-Route::secure('GET',	'users/(:num)/profile/new',						array( 'before' => 'https', 'as' => 'users.profile.new', 			'uses' => 'users.profile@create'));
-Route::secure('POST',	'users/(:num)/profile/new', 					array( 'before' => 'https', 'as' => 'users.profile.new.s', 			'uses' => 'users.profile@create'));
-Route::secure('GET',	'users/(:num)/profile/edit', 					array( 'before' => 'https', 'as' => 'users.profile.edit', 			'uses' => 'users.profile@edit'));
-Route::secure('PUT',	'users/(:num)/profile/edit', 					array( 'before' => 'https', 'as' => 'users.profile.edit.s', 		'uses' => 'users.profile@edit'));
-Route::secure('GET',	'users/(:num)/profile/delete', 					array( 'before' => 'https', 'as' => 'users.profile.delete', 		'uses' => 'users.profile@delete'));
-Route::secure('DELETE',	'users/(:num)/profile/delete', 					array( 'before' => 'https', 'as' => 'users.profile.delete.s', 		'uses' => 'users.profile@delete'));
-Route::secure('DELETE',	'users/(:num)/profile', 						array( 'before' => 'https', 'as' => 'users.profile.delete.s.alt',	'uses' => 'users.profile@delete'));
+Route::get(				'users/(:num)/profile', 						array( 'before' => '', 		'as' => 'users.profile.view', 			'uses' => 'users.profiles@view'));
+Route::secure('GET',	'users/(:num)/profile/new',						array( 'before' => 'https|auth', 'as' => 'users.profile.new', 			'uses' => 'users.profiles@create'));
+Route::secure('POST',	'users/(:num)/profile/new', 					array( 'before' => 'https|auth', 'as' => 'users.profile.new.s', 			'uses' => 'users.profiles@create'));
+Route::secure('GET',	'users/(:num)/profile/edit', 					array( 'before' => 'https|auth', 'as' => 'users.profile.edit', 			'uses' => 'users.profiles@edit'));
+Route::secure('PUT',	'users/(:num)/profile/edit', 					array( 'before' => 'https|auth', 'as' => 'users.profile.edit.s', 		'uses' => 'users.profiles@edit'));
+Route::secure('GET',	'users/(:num)/profile/delete', 					array( 'before' => 'https|auth', 'as' => 'users.profile.delete', 		'uses' => 'users.profiles@delete'));
+Route::secure('DELETE',	'users/(:num)/profile/delete', 					array( 'before' => 'https|auth', 'as' => 'users.profile.delete.s', 		'uses' => 'users.profiles@delete'));
+Route::secure('DELETE',	'users/(:num)/profile', 						array( 'before' => 'https|auth', 'as' => 'users.profile.delete.s.alt',	'uses' => 'users.profiles@delete'));
 
 // Ads URLS
 Route::secure('GET', 	'users/(:num)/ads', 							array( 'before' => 'https', 'as' => 'users.ads', 					'uses' => 'ads@index'));
 Route::secure('GET', 	'users/(:num)/ads/(:num)', 						array( 'before' => 'https', 'as' => 'users.ads.view', 				'uses' => 'ads@view'));
-Route::secure('GET', 	'users/(:num)/ads/new', 						array( 'before' => 'https', 'as' => 'users.ads.new', 				'uses' => 'ads@create'));
-Route::secure('POST', 	'users/(:num)/ads/new', 						array( 'before' => 'https', 'as' => 'users.ads.new.s', 				'uses' => 'ads@create'));
-Route::secure('GET', 	'users/(:num)/ads/(:num)/edit', 				array( 'before' => 'https', 'as' => 'users.ads.edit', 				'uses' => 'ads@edit'));
-Route::secure('PUT', 	'users/(:num)/ads/(:num)/edit', 				array( 'before' => 'https', 'as' => 'users.ads.edit.s', 			'uses' => 'ads@edit'));
-Route::secure('GET', 	'users/(:num)/ads/(:num)/delete', 				array( 'before' => 'https', 'as' => 'users.ads.delete', 			'uses' => 'ads@delete'));
-Route::secure('DELETE', 'users/(:num)/ads/(:num)/delete', 				array( 'before' => 'https', 'as' => 'users.ads.delete.s', 			'uses' => 'ads@delete'));
-Route::secure('DELETE', 'users/(:num)/ads/(:num)', 						array( 'before' => 'https', 'as' => 'users.ads.delete.s.alt', 		'uses' => 'ads@delete'));
+Route::secure('GET', 	'users/(:num)/ads/new', 						array( 'before' => 'https|auth', 'as' => 'users.ads.new', 				'uses' => 'ads@create'));
+Route::secure('POST', 	'users/(:num)/ads/new', 						array( 'before' => 'https|auth', 'as' => 'users.ads.new.s', 				'uses' => 'ads@create'));
+Route::secure('GET', 	'users/(:num)/ads/(:num)/edit', 				array( 'before' => 'https|auth', 'as' => 'users.ads.edit', 				'uses' => 'ads@edit'));
+Route::secure('PUT', 	'users/(:num)/ads/(:num)/edit', 				array( 'before' => 'https|auth', 'as' => 'users.ads.edit.s', 			'uses' => 'ads@edit'));
+Route::secure('GET', 	'users/(:num)/ads/(:num)/delete', 				array( 'before' => 'https|auth', 'as' => 'users.ads.delete', 			'uses' => 'ads@delete'));
+Route::secure('DELETE', 'users/(:num)/ads/(:num)/delete', 				array( 'before' => 'https|auth', 'as' => 'users.ads.delete.s', 			'uses' => 'ads@delete'));
+Route::secure('DELETE', 'users/(:num)/ads/(:num)', 						array( 'before' => 'https|auth', 'as' => 'users.ads.delete.s.alt', 		'uses' => 'ads@delete'));
 
 // Comments URLS
 Route::get(				'users/(:num)/ads/(:num)/comments', 					array( 'before' => '', 		'as' => 'users.ads.comments', 				'uses' => 'ads.comments@index'));
 Route::secure('GET',	'users/(:num)/ads/(:num)/comments/(:num)',				array( 'before' => 'https', 'as' => 'users.ads.comments.view', 			'uses' => 'ads.comments@view'));
-Route::secure('GET',	'users/(:num)/ads/(:num)/comments/new',					array( 'before' => 'https', 'as' => 'users.ads.comments.new', 			'uses' => 'ads.comments@create'));
-Route::secure('POST',	'users/(:num)/ads/(:num)/comments/new', 				array( 'before' => 'https', 'as' => 'users.ads.comments.new.s', 		'uses' => 'ads.comments@create'));
-Route::secure('GET',	'users/(:num)/ads/(:num)/comments/(:num)/edit', 		array( 'before' => 'https', 'as' => 'users.ads.comments.edit', 			'uses' => 'ads.comments@edit'));
-Route::secure('PUT',	'users/(:num)/ads/(:num)/comments/(:num)/edit', 		array( 'before' => 'https', 'as' => 'users.ads.comments.edit.s', 		'uses' => 'ads.comments@edit'));
-Route::secure('GET',	'users/(:num)/ads/(:num)/comments/(:num)/delete', 		array( 'before' => 'https', 'as' => 'users.ads.comments.delete', 		'uses' => 'ads.comments@delete'));
-Route::secure('DELETE',	'users/(:num)/ads/(:num)/comments/(:num)/delete', 		array( 'before' => 'https', 'as' => 'users.ads.comments.delete.s', 		'uses' => 'ads.comments@delete'));
-Route::secure('DELETE',	'users/(:num)/ads/(:num)/comments/(:num)/', 			array( 'before' => 'https', 'as' => 'users.ads.comments.delete.s.alt', 	'uses' => 'ads.comments@delete'));
+Route::secure('GET',	'users/(:num)/ads/(:num)/comments/new',					array( 'before' => 'https|auth', 'as' => 'users.ads.comments.new', 			'uses' => 'ads.comments@create'));
+Route::secure('POST',	'users/(:num)/ads/(:num)/comments/new', 				array( 'before' => 'https|auth', 'as' => 'users.ads.comments.new.s', 		'uses' => 'ads.comments@create'));
+Route::secure('GET',	'users/(:num)/ads/(:num)/comments/(:num)/edit', 		array( 'before' => 'https|auth', 'as' => 'users.ads.comments.edit', 			'uses' => 'ads.comments@edit'));
+Route::secure('PUT',	'users/(:num)/ads/(:num)/comments/(:num)/edit', 		array( 'before' => 'https|auth', 'as' => 'users.ads.comments.edit.s', 		'uses' => 'ads.comments@edit'));
+Route::secure('GET',	'users/(:num)/ads/(:num)/comments/(:num)/delete', 		array( 'before' => 'https|auth', 'as' => 'users.ads.comments.delete', 		'uses' => 'ads.comments@delete'));
+Route::secure('DELETE',	'users/(:num)/ads/(:num)/comments/(:num)/delete', 		array( 'before' => 'https|auth', 'as' => 'users.ads.comments.delete.s', 		'uses' => 'ads.comments@delete'));
+Route::secure('DELETE',	'users/(:num)/ads/(:num)/comments/(:num)/', 			array( 'before' => 'https|auth', 'as' => 'users.ads.comments.delete.s.alt', 	'uses' => 'ads.comments@delete'));
 
-Route::secure('GET',	'categories', 									array( 'before' => 'https',	'as' => 'users.categories',				'uses' => 'categories@index' ));
-Route::secure('GET',	'categories/(:num)', 							array( 'before' => 'https',	'as' => 'users.categories.view',		'uses' => 'categories@view'  ));
+Route::secure('GET',	'categories', 									array( 'before' => '',				'as' => 'users.categories',				'uses' => 'categories@index' ));
+Route::secure('GET',	'categories/(:num)', 							array( 'before' => '',				'as' => 'users.categories.view',		'uses' => 'categories@view'  ));
 Route::secure('GET',	'categories/new',		 						array( 'before' => 'https|auth',	'as' => 'users.categories.new',			'uses' => 'categories@create'));
 Route::secure('POST',	'categories/new',		 						array( 'before' => 'https|auth',	'as' => 'users.categories.new.s',		'uses' => 'categories@create'));
-Route::secure('GET',	'categories/(:num)/edit', 						array( 'before' => 'https',	'as' => 'users.categories.edit',		'uses' => 'categories@edit'	 ));
-Route::secure('PUT',	'categories/(:num)/edit', 						array( 'before' => 'https',	'as' => 'users.categories.edit.s',		'uses' => 'categories@edit'	 ));
-Route::secure('GET',	'categories/(:num)/delete', 					array( 'before' => 'https',	'as' => 'users.categories.delete',		'uses' => 'categories@delete'));
-Route::secure('DELETE',	'categories/(:num)/delete', 					array( 'before' => 'https',	'as' => 'users.categories.delete.s',	'uses' => 'categories@delete'));
-Route::secure('DELETE',	'categories/(:num)', 							array( 'before' => 'https',	'as' => 'users.categories.delete.s.alt','uses' => 'categories@delete'));
+Route::secure('GET',	'categories/(:num)/edit', 						array( 'before' => 'https|auth',	'as' => 'users.categories.edit',		'uses' => 'categories@edit'	 ));
+Route::secure('PUT',	'categories/(:num)/edit', 						array( 'before' => 'https|auth',	'as' => 'users.categories.edit.s',		'uses' => 'categories@edit'	 ));
+Route::secure('GET',	'categories/(:num)/delete', 					array( 'before' => 'https|auth',	'as' => 'users.categories.delete',		'uses' => 'categories@delete'));
+Route::secure('DELETE',	'categories/(:num)/delete', 					array( 'before' => 'https|auth',	'as' => 'users.categories.delete.s',	'uses' => 'categories@delete'));
+Route::secure('DELETE',	'categories/(:num)', 							array( 'before' => 'https|auth',	'as' => 'users.categories.delete.s.alt','uses' => 'categories@delete'));
 
 Route::controller(Controller::detect()); // TODO: SECURITY HOLE
 

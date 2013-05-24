@@ -1,13 +1,13 @@
 <div class="span16">
 	<ul class="breadcrumb span6">
 		<li>
-			<a href="{{URL::to('users')}}">Users</a> <span class="divider">/</span>
+			<a href="{{URL::to_route('users')}}">Users</a> <span class="divider">/</span>
 		</li>
 		<li class="active">New User</li>
 	</ul>
 </div>
 
-{{Form::open(null, 'post', array('class' => 'form-stacked span16'))}}
+{{Form::open(URL::to_route('users.new'), 'POST', array('class' => 'form-stacked span16'))}}
 	<fieldset>
 		<div class="clearfix">
 			{{Form::label('username', 'Username')}}

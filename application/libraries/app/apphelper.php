@@ -35,7 +35,10 @@ class AppHelper{
 	*/
 	public static function insert_if_exists($eloquent, $relatee, $relation){
 		if(!is_null($relatee)){
-			return call_user_func(array($eloquent, $relation))->insert($relatee);
+			($relatee->id == null) ? $relatee->save()  :false;
+			($eloquent->id == null)? $eloquent->save() :false;
+			
+			return call_user_func(array($eloquent, $relation))->attach($relatee);
 		}
 		return false;
 	}

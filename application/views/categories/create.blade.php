@@ -18,6 +18,7 @@
 				{{Form::text('name', Input::old('name'), array('class' => 'span6'))}}
 			</div>
 		</div>
+		
 		<div class="clearfix">
 			{{Form::label('description', 'Description')}}
 
@@ -25,6 +26,7 @@
 				{{Form::textarea('description', Input::old('description'), array('class' => 'span10'))}}
 			</div>
 		</div>
+
 		<div class="clearfix">
 			{{Form::label('parent_id', 'Parent Category: ')}}
 		

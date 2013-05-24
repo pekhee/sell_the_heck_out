@@ -29,4 +29,8 @@ class User extends Eloquent {
 	public function profile(){
 		return $this->has_one('User_Profile');
 	}
+
+	public function set_password($password){
+		$this->set_attribute('password', Hash::make($password));
+	}
 }

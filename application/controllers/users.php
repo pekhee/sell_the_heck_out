@@ -63,7 +63,7 @@ class Users_Controller extends Base_Controller {
 			$user = new User;
 
 			$user->username = Input::get('username');
-			$user->password = Hash::make( Input::get('password') );
+			$user->password = Input::get('password');
 			$user->email = Input::get('email');
 
 			$user->save();
@@ -153,7 +153,7 @@ class Users_Controller extends Base_Controller {
 			}
 
 			$user->username = Input::get('username');
-			$user->password = Hash::make( Input::get('password'));
+			$user->password = Input::get('password');
 			$user->email = Input::get('email');
 
 			$user->save();

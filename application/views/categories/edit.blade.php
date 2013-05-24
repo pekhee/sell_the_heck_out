@@ -1,16 +1,16 @@
 <div class="span16">
 	<ul class="breadcrumb span6">
 		<li>
-			<a href="{{URL::to('users/view/'.$category->user->id)}}">User</a> <span class="divider">/</span>
+			<a href="{{URL::to_route('users.view', array( 'user_id' => object_get($category->user,'id', null) ))}}">{{ object_get($category->user,'username', 'User') }}</a> <span class="divider">/</span>
 		</li>
 		<li>
-			<a href="{{URL::to('todos/categories')}}">Todo Categories</a> <span class="divider">/</span>
+			<a href="{{URL::to_route('users.categories')}}">Categories</a> <span class="divider">/</span>
 		</li>
-		<li class="active">Editing Todo Category</li>
+		<li class="active">Editing {{ $category->name }} Category</li>
 	</ul>
 </div>
 
-{{Form::open(null, 'post', array('class' => 'form-stacked span16'))}}
+{{Form::open(URL::to_route('users.categories.edit', array( 'user_id' => $category->id )), 'PUT', array('class' => 'form-stacked span16'))}}
 	<fieldset>
 		<div class="clearfix">
 			{{Form::label('name', 'Name')}}

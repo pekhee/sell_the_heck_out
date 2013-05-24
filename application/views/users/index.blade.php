@@ -19,13 +19,23 @@
 					<td>{{$user->password}}</td>
 					<td>{{$user->email}}</td>
 					@if( isset($user->profile))
-					<td><a href="{{URL::to('users/profiles/view/'.$user->profile->id)}}">{{ $user->username }}'s profile </a></td>
+						<td>
+							<a href="{{URL::to_route('users.profile.view', array( 'user_id' => $user->id ))}}">
+								{{ $user->username }}'s profile 
+							</a>
+						</td>
+					@else
+						<td>
+							<a href="{{URL::to_route('users.profile.new', array( 'user_id' => $user->id ))}}">
+								Create {{ $user->username }}'s Profile
+							</a>
+						</td>
 					@endif
-					<td>{{count($user->todos)}}</td>
+					<td>{{count($user->ads)}}</td>
 					<td>
-						<a href="{{URL::to('users/view/'.$user->id)}}" class="btn">View</a>
-						<a href="{{URL::to('users/edit/'.$user->id)}}" class="btn">Edit</a>
-						<a href="{{URL::to('users/delete/'.$user->id)}}" class="btn danger" onclick="return confirm('Are you sure?')">Delete</a>
+						<a href="{{URL::to_route('users.view', array( 'user_id' => $user->id ))}}" class="btn">View</a>
+						<a href="{{URL::to_route('users.edit', array( 'user_id' => $user->id ))}}" class="btn">Edit</a>
+						<a href="{{URL::to_route('users.delete', array( 'user_id' => $user->id ))}}" class="btn danger" onclick="return confirm('Are you sure?')">Delete</a>
 					</td>
 				</tr>
 			@endforeach
@@ -33,4 +43,4 @@
 	</table>
 @endif
 
-<p><a class="btn success" href="{{URL::to('users/create')}}">Create new User</a></p>
+<p><a class="btn success" href="{{URL::to_route('users.new')}}">Create new User</a></p>

@@ -23,8 +23,8 @@ class Categories_Controller extends Base_Controller {
 	 */
 	public function get_index()
 	{
-		$categories = Category::with(array('user', 'ads'))->get();
-
+		$categories = Category::with(array('user', 'ads', 'parent', 'children'))->get();
+		
 		if(Input::get('alt') == 'json'){
 			return Response::eloquent($categories);
 		}
@@ -139,7 +139,7 @@ class Categories_Controller extends Base_Controller {
 	 * @param  int       $category_id
 	 * @return Response
 	 */
-	public function post_edit($category_id)
+	public function put_edit($category_id)
 	{
 		$validation = Validator::make(Input::all(), array(
 			'name' => array('required'),
