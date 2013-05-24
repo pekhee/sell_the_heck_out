@@ -43,11 +43,11 @@ Route::get('/', array( 'as' => 'home', function()
 
 
 // Login and Logout routes
-Route::secure('GET', 	'users/login', 									array( 'before' => 'https', 'as' => 'user.login', 					'uses' => 'users@login'));
-Route::secure('POST', 	'users/login/(:any?)',							array( 'before' => 'https', 'as' => 'user.login.s', 				'uses' => 'users@login'));
+Route::secure('GET', 	'users/login', 									array( 'before' => 'https', 'as' => 'users.login', 					'uses' => 'users@login'));
+Route::secure('POST', 	'users/login/(:any?)',							array( 'before' => 'https', 'as' => 'users.login.s', 				'uses' => 'users@login'));
 
-Route::secure('GET', 	'users/logout', 								array( 'before' => 'https|auth', 'as' => 'user.logout', 					'uses' => 'users@logout'));
-Route::secure('POST', 	'users/logout', 								array( 'before' => 'https|auth', 'as' => 'user.logout.s', 				'uses' => 'users@logout'));
+Route::secure('GET', 	'users/logout', 								array( 'before' => 'https|auth', 'as' => 'users.logout', 					'uses' => 'users@logout'));
+Route::secure('POST', 	'users/logout', 								array( 'before' => 'https|auth', 'as' => 'users.logout.s', 				'uses' => 'users@logout'));
 
 // Users URLS
 Route::secure('GET', 	'users', 										array( 'before' => 'https', 'as' => 'users', 						'uses' => 'users@index')); 	// List all
@@ -191,7 +191,7 @@ Route::filter('auth', function()
 		}
 		else{
 			Session::put('redirect_to', URL::current());
-			return Redirect::to_route('user.login');
+			return Redirect::to_route('users.login');
 		}
 	}
 });

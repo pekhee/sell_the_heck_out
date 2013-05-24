@@ -84,8 +84,8 @@ class Users_Profiles_Controller extends Base_Controller {
 			$profile->save();
 			if( array_get(Input::file('pic'), 'size', 0) != 0 ){
 				Log::debug('has pic');
-				Input::upload('pic', path('storage') . 'work/' . 'image/', $profile->id . '.jpg');
-				$profile->pic_link = path('storage') . 'work/' . 'image/' . "$profile->id" . '.jpg';
+				Input::upload('pic', path('public') . 'user_data/' . 'image/', $profile->id . '.jpg');
+				$profile->img_link = '/user_data/' . 'image/' . $profile->id . '.jpg';
 				$profile->save();
 			}
 
@@ -192,7 +192,7 @@ class Users_Profiles_Controller extends Base_Controller {
 			if( array_get(Input::file('pic'), 'size', 0) != 0 ){
 				Log::debug('has pic');
 				Input::upload('pic', path('public') . 'user_data/' . 'image/', $profile->id . '.jpg');
-				$profile->pic_link = '/public/' . 'user_data/' . 'image/' . "$profile->id" . '.jpg';
+				$profile->img_link = '/user_data/' . 'image/' . $profile->id . '.jpg';
 				$profile->save();
 			}
 
